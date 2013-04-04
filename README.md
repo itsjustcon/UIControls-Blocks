@@ -14,7 +14,7 @@ There's two ways you can use all this great stuff:
 ##### Handle Control Events
 ```objective-c
 [myButton handleControlEvent:UIControlEventTouchDown withBlock:^{
-	// Do something here
+	NSLog(@"You pressed my button!");
 }];
 ```
 
@@ -28,13 +28,13 @@ No more `numberOfRowsInSection` nonsense:
 [myTable setNumberOfRows:1];
 ```
 
-Want multiple sections? No problem! Here's 3 sections with 2 rows each:
+Want multiple sections? No problem! Just pass an array of row values. Here's 3 sections with 2 rows each:
 ```objective-c
 [myTable setNumberOfRowsInSections:@[@2,@2,@2,]];
 ```
 
 ##### Cell Drawing
-Instead of `cellForRowAtIndexPath` we've got this:
+The `cellForRowAtIndexPath` alternative is `handleCellCreationWithBlock` like so:
 
 ```objective-c
 [myTable handleCellCreationWithBlock:^UITableViewCell *(UITableView *tableView, NSIndexPath *indexPath){
@@ -44,6 +44,7 @@ Instead of `cellForRowAtIndexPath` we've got this:
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     NSInteger section = [indexPath section];
     NSInteger row = [indexPath row];
+    NSLog(@"Creating cell for section: %i and row: %i", section, row);
     cell.textLabel.text = @"";
     cell.accessoryType = UITableViewCellAccessoryNone;
     cell.imageView.image = nil;
@@ -52,7 +53,7 @@ Instead of `cellForRowAtIndexPath` we've got this:
 ```
 
 ##### Cell Selection
-The `didSelectRowAtIndexPath` alternative:
+The `didSelectRowAtIndexPath` alternative is `handleCellSelectionWithBlock` like so:
 
 ```objective-c
 [myTable handleCellSelectionWithBlock:^void(UITableView *tableView, NSIndexPath *indexPath){
