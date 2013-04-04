@@ -5,7 +5,7 @@ typedef UITableViewCell* (^CreateTableCellBlock)(UITableView *tableView, NSIndex
 typedef void (^SelectTableCellBlock)(UITableView *tableView, NSIndexPath *indexPath);
 static char RowsKey, CreateCellKey, SelectCellKey;
 
-@interface UITableView (UIBlockTableView) <UITableViewDelegate, UITableViewDataSource>
+@interface UITableView (UIBlockTableView) <UITableViewDataSource, UITableViewDelegate>
 - (void)setNumberOfRows:(NSInteger)rows;
 - (void)setNumberOfRowsInSections:(NSArray *)rows;
 - (void)handleCellCreationWithBlock:(CreateTableCellBlock)block;
@@ -20,6 +20,7 @@ static char RowsKey, CreateCellKey, SelectCellKey;
     NSArray *rowsArray = @[ @(rows) ];
     objc_setAssociatedObject(self, &RowsKey, rowsArray, OBJC_ASSOCIATION_COPY_NONATOMIC);
     [self setDataSource:self];
+    [self setDelegate:self];
 }
 
 // sectionRows is array of row counts in each section
@@ -27,11 +28,13 @@ static char RowsKey, CreateCellKey, SelectCellKey;
 - (void)setNumberOfRowsInSections:(NSArray *)rows {
     objc_setAssociatedObject(self, &RowsKey, rows, OBJC_ASSOCIATION_COPY_NONATOMIC);
     [self setDataSource:self];
+    [self setDelegate:self];
 }
 
 - (void)handleCellCreationWithBlock:(CreateTableCellBlock)block {
     objc_setAssociatedObject(self, &CreateCellKey, block, OBJC_ASSOCIATION_COPY_NONATOMIC);
     [self setDataSource:self];
+    [self setDelegate:self];
 }
 
 - (void)handleCellSelectionWithBlock:(SelectTableCellBlock)block {

@@ -1,6 +1,6 @@
 # UIControls + Blocks
 
-**UIControls+Blocks**, is the dead-simple, missing link between iOS interface controls and objective-c blocks.
+**UIControls+Blocks**, is the dead-simple, missing link between iOS interface controls and objective-c blocks. No more delegates and useless methods, just blocks!
 
 ## How To Use?
 There's two ways you can use all this great stuff:  
@@ -42,12 +42,8 @@ The `cellForRowAtIndexPath` alternative is `handleCellCreationWithBlock` like so
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 	if (cell == nil)
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    NSInteger section = [indexPath section];
-    NSInteger row = [indexPath row];
-    NSLog(@"Creating cell for section: %i and row: %i", section, row);
+    NSLog(@"Creating cell for section: %i and row: %i", [indexPath section], [indexPath row]);
     cell.textLabel.text = @"";
-    cell.accessoryType = UITableViewCellAccessoryNone;
-    cell.imageView.image = nil;
     return cell;
 }];
 ```
@@ -60,6 +56,26 @@ The `didSelectRowAtIndexPath` alternative is `handleCellSelectionWithBlock` like
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     NSInteger row = [indexPath row];
     NSLog(@"Selected cell: %i",row);
+}];
+```
+
+***
+
+### UIPickerView+Blocks
+
+##### Set Row Titles
+The `numberOfRowsInComponent` and `titleForRow` alternative is `setTitles`. You must pass in a two dimensional array, like so:
+
+```objective-c
+[myPicker setTitles:@[ @[@"Component1Row1",@"Component1Row2"], @[@"Component2Row1",@"Component2Row2"] ]];
+```
+
+##### Row Selection
+The `didSelectRow` alternative is `handleSelectionWithBlock` like so:
+
+```objective-c
+[myPicker handleSelectionWithBlock:^void(UIPickerView *pickerView, NSInteger row, NSInteger component){
+	NSLog(@"You pressed row: %i in component: %i!", row, component);
 }];
 ```
 
