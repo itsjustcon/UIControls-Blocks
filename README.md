@@ -4,7 +4,7 @@
 
 ## How To Use?
 There's two ways you can use all this great stuff:  
-1. Import all the files in your project and add the main header: `#import "UIControls+Blocks.h"`  
+1. Include all the files in your project/target and add the main header: `#import "UIControls+Blocks.h"`  
 2. *Or* just include the controls you want like: `#import "UIButton+Blocks.h"`  
 
 ## Examples
